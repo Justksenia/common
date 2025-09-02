@@ -1,4 +1,4 @@
-module gitlab.com/adstail/ts-common
+module github.com/Justksenia/common
 
 go 1.22
 
