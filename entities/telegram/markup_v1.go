@@ -3,7 +3,7 @@ package telegram
 import (
 	"encoding/json"
 
-	"gitlab.com/adstail/ts-common/entities/telegram/markup"
+	"github.com/Justksenia/common/entities/telegram/markup"
 )
 
 type MarkupV1 struct {

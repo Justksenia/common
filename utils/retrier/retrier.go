@@ -7,7 +7,7 @@ import (
 
 	"github.com/go-faster/errors"
 	"github.com/samber/lo"
-	cmnlogger "gitlab.com/adstail/ts-common/logger"
+	cmnlogger "github.com/Justksenia/common"
 	"go.uber.org/zap"
 )
 

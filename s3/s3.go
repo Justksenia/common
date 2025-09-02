@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"strings"
 
+	cmnlogger "github.com/Justksenia/common/logger"
+	"github.com/Justksenia/common/tracer"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/aws/aws-sdk-go-v2/service/s3/types"
 	"github.com/go-faster/errors"
-	cmnlogger "gitlab.com/adstail/ts-common/logger"
-	"gitlab.com/adstail/ts-common/tracer"
 	"go.uber.org/zap"
 )
 

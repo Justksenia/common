@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
-	cmnlogger "gitlab.com/adstail/ts-common/logger"
-	"gitlab.com/adstail/ts-common/tracer"
+	cmnlogger "github.com/Justksenia/common/logger"
+	"github.com/Justksenia/common/tracer"
 	"go.opentelemetry.io/otel/trace"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"

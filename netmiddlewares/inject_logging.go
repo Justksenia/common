@@ -3,7 +3,7 @@ package middlewares
 import (
 	"net/http"
 
-	cmlogger "gitlab.com/adstail/ts-common/logger"
+	cmlogger "github.com/Justksenia/common/logger"
 	"go.uber.org/zap"
 )
 

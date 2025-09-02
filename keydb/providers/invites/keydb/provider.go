@@ -3,7 +3,7 @@ package keydb
 import (
 	"fmt"
 
-	"gitlab.com/adstail/ts-common/keydb/redis"
+	"github.com/Justksenia/common/keydb/redis"
 )
 
 const (

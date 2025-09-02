@@ -5,9 +5,9 @@ import (
 	"testing"
 	"time"
 
+	"github.com/Justksenia/common/entities/invites"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"gitlab.com/adstail/ts-common/entities/invites"
 )
 
 func (s *InviteLinkProviderTestSuite) TestAddLink() {

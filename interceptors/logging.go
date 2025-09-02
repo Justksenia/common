@@ -5,7 +5,7 @@ import (
 
 	grpcZap "github.com/grpc-ecosystem/go-grpc-middleware/logging/zap"
 	"github.com/grpc-ecosystem/go-grpc-middleware/logging/zap/ctxzap"
-	cmnlogger "gitlab.com/adstail/ts-common/logger"
+	cmnlogger "github.com/Justksenia/common/logger"
 	"go.opentelemetry.io/otel/trace"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"

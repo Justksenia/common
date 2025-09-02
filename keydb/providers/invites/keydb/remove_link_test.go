@@ -7,8 +7,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"gitlab.com/adstail/ts-common/entities/invites"
-	"gitlab.com/adstail/ts-common/keydb/redis"
+	"github.com/Justksenia/common/entities/invites"
+	"github.com/Justksenia/common/keydb/redis"
 )
 
 func (s *InviteLinkProviderTestSuite) TestRemoveLink() {

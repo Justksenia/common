@@ -4,9 +4,9 @@ import (
 	"context"
 
 	"github.com/go-faster/errors"
-	"gitlab.com/adstail/ts-common/entities/invites"
-	"gitlab.com/adstail/ts-common/keydb/redis"
-	"gitlab.com/adstail/ts-common/tracer"
+	"github.com/Justksenia/common/entities/invites"
+	"github.com/Justksenia/common/keydb/redis"
+	"github.com/Justksenia/common/tracer"
 	"go.opentelemetry.io/otel/trace"
 )
 

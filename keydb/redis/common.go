@@ -7,7 +7,7 @@ import (
 	"github.com/redis/go-redis/v9"
 	"go.opentelemetry.io/otel/trace"
 
-	"gitlab.com/adstail/ts-common/tracer"
+	"github.com/Justksenia/common/tracer"
 )
 
 func (i *Instance) Set(ctx context.Context, key string, value any) error {

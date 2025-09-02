@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
-	"gitlab.com/adstail/ts-common/containers"
+	"github.com/Justksenia/common/containers"
 )
 
 type RedisTestSuite struct {

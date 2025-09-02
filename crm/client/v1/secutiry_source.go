@@ -3,7 +3,7 @@ package v1
 import (
 	"context"
 
-	"gitlab.com/adstail/ts-common/crm/client/v1/gen"
+	"github.com/Justksenia/common/crm/client/v1/gen"
 )
 
 type ConstJWTSecuritySource struct {
