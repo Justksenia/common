@@ -1,0 +1,706 @@
+openapi: 3.0.1
+info:
+  title: CRM API
+  version: v1
+servers:
+  - url: /
+paths: 
+
+  /api/organisations:
+    post:
+      tags: [Organisations]
+      description: Create a new organisation
+      summary: Create a new organisation
+      operationId: createOrganisation
+      requestBody:
+        $ref: '#/components/requestBodies/PostOrganisationRequestBody'
+      responses:
+        200:
+          $ref: '#/components/responses/OrganisationResponse'
+        400:
+          $ref: '#/components/responses/Error'
+        401:
+          description: Unauthorized
+
+  /api/organisations/{organisationID}:
+    put:
+      tags: [Organisations]
+      description: Update an organisation
+      summary: Update an organisation
+      operationId: updateOrganisation
+      parameters:
+        - $ref: '#/components/parameters/organisationID'
+      requestBody:
+        $ref: '#/components/requestBodies/PutOrganisationRequestBody'
+      responses:
+        200:
+          $ref: '#/components/responses/OrganisationResponse'
+        400:
+          $ref: '#/components/responses/Error'
+        401:
+          description: Unauthorized
+    get:
+      tags: [Organisations]
+      description: Get an organisation
+      summary: Get an organisation
+      operationId: getOrganisation
+      parameters:
+        - $ref: '#/components/parameters/organisationID'
+      responses:
+        200:
+          $ref: '#/components/responses/OrganisationResponse'
+        400:
+          $ref: '#/components/responses/Error'
+        401:
+          description: Unauthorized
+        404:
+          $ref: '#/components/responses/Error'
+  /api/clients:
+    post:
+      tags: [Clients]
+      description: Create a new client
+      summary: Create a new client
+      operationId: createClient
+      requestBody:
+        $ref: '#/components/requestBodies/PostClientRequestBody'
+      responses:
+        200:
+          $ref: '#/components/responses/ClientResponse'
+        400:
+          $ref: '#/components/responses/Error'
+        401:
+          description: Unauthorized
+    get:
+      tags: [ Clients ]
+      description: Get a client
+      summary: Get a client
+      operationId: getClientByFilter
+      parameters:
+        - $ref: '#/components/parameters/eqFilterClientID'
+      responses:
+        200:
+          $ref: '#/components/responses/ClientByFilterResponse'
+        400:
+          $ref: '#/components/responses/Error'
+        401:
+          description: Unauthorized
+        404:
+          $ref: '#/components/responses/Error'
+
+  /api/clients/{clientID}:
+    put:
+      tags: [Clients]
+      description: Update a client
+      summary: Update a client
+      operationId: updateClient
+      parameters:
+        - $ref: '#/components/parameters/clientID'
+      requestBody:
+        $ref: '#/components/requestBodies/PutClientRequestBody'
+      responses:
+        200:
+          $ref: '#/components/responses/ClientResponse'
+        400:
+          $ref: '#/components/responses/Error'
+        401:
+          description: Unauthorized
+        404:
+          $ref: '#/components/responses/Error'
+    get:
+        tags: [Clients]
+        description: Get a client
+        summary: Get a client
+        operationId: getClient
+        parameters:
+          - $ref: '#/components/parameters/clientID'
+          - $ref: '#/components/parameters/populate'
+        responses:
+          200:
+            $ref: '#/components/responses/ClientResponse'
+          400:
+            $ref: '#/components/responses/Error'
+          401:
+            description: Unauthorized
+          404:
+            $ref: '#/components/responses/Error'
+  /api/channels:
+    get:
+      tags: [Channels]
+      description: Get all channels
+      summary: Get all channels
+      operationId: getChannels
+      parameters:
+        - in: query
+          name: filters[verification_date][$gte]
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          $ref: '#/components/responses/GetChannelsResponse'
+        400:
+          $ref: '#/components/responses/Error'
+        401:
+          description: Unauthorized
+    post:
+      tags: [Channels]
+      description: Create a new channel
+      summary: Create a new channel
+      operationId: createChannel
+      requestBody:
+        $ref: '#/components/requestBodies/PostChannelRequestBody'
+      responses:
+        200:
+          $ref: '#/components/responses/ChannelResponse'
+        400:
+          $ref: '#/components/responses/Error'
+        401:
+          description: Unauthorized
+
+  /api/discounts:
+    get:
+      tags: [Discounts]
+      description: Get all discounts
+      summary: Get all discounts
+      operationId: getDiscounts
+      parameters:
+        - $ref: '#/components/parameters/eqFilterClientID'
+      responses:
+        200:
+          $ref: '#/components/responses/GetDiscountsResponse'
+        400:
+          $ref: '#/components/responses/Error'
+        401:
+          description: Unauthorized
+        404:
+          $ref: '#/components/responses/Error'
+
+  /api/commissions:
+    get:
+      tags: [Commisions]
+      description: Get all commissions
+      summary: Get all commissions
+      operationId: getCommissions
+      responses:
+        200:
+          $ref: '#/components/responses/GetCommissionsResponse'
+        400:
+          $ref: '#/components/responses/Error'
+        401:
+          description: Unauthorized
+        404:
+          $ref: '#/components/responses/Error'
+
+components:
+  requestBodies:
+    PostOrganisationRequestBody:
+      description: Request body for creating a new organisation
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/Organisation'
+            required: [data]
+    PutOrganisationRequestBody:
+      description: Request body for updating an organisation
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/PartialOrganization'
+            required: [data]
+    PostClientRequestBody:
+      description: Request body for creating a new client
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                allOf:
+                  - $ref: '#/components/schemas/Client'
+                  - properties:
+                      organisationID:
+                        $ref: '#/components/schemas/OrganisationCrmID'
+            required: [data]
+    PutClientRequestBody:
+      description: Request body for update a client
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  clientID:
+                    type: string
+                  clientUsername:
+                    type: string
+                  activeBalance:
+                    type: number
+                    format: decimal
+                  profitBalance:
+                    type: number
+                    format: decimal
+                  blockedBalance:
+                    type: number
+                    format: decimal
+                  withdrawlBalance:
+                    type: number
+                    format: decimal
+                  organisationID:
+                    $ref: '#/components/schemas/OrganisationCrmID'
+            required: [data]
+    PostChannelRequestBody:
+      description: Request body for creating a new channel
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [data]
+            properties:
+              data:
+                type: object
+                properties:
+                  channel_id:
+                    type: string
+                  title:
+                    type: string
+                  
+  responses:
+    GetDiscountsResponse:
+      description: Response discounts
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      $ref: '#/components/schemas/DiscountID'
+                    attributes:
+                      $ref: '#/components/schemas/Multiplier'
+
+                meta:
+                  type: object
+                  properties:
+                    pagination:
+                      $ref: '#/components/schemas/Pagination'
+
+    GetCommissionsResponse:
+      description: Response commissions
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      $ref: '#/components/schemas/CommissionID'
+                    attributes:
+                      $ref: '#/components/schemas/Multiplier'
+              meta:
+                type: object
+                properties:
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+
+
+    OrganisationResponse:
+      description: Response organisation
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [data, meta]
+            properties:
+              data:
+                type: object
+                properties:
+                  id:
+                    $ref: '#/components/schemas/OrganisationCrmID'
+                  attributes:
+                    $ref: '#/components/schemas/OrganisationWithDateInfo'
+              meta:
+                type: object
+                additionalProperties: false
+    ClientByFilterResponse:
+      description: Response clients by filter
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClientData'
+              meta:
+                type: object
+                properties:
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+
+    ClientResponse:
+        description: Response user
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    id:
+                      $ref: '#/components/schemas/ClientCrmID'
+                    attributes:
+                      allOf:
+                        - $ref: '#/components/schemas/ClientWithDateInfo'
+                        - type: object
+                          properties:
+                            organisationID:
+                              $ref: '#/components/schemas/WrappedOrganisationResponse'
+                meta:
+                  type: object
+                  additionalProperties: false
+    Error:
+      description: error response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  name:
+                    type: string
+                  message:
+                    type: string
+                  details:
+                    type: object
+                    properties:
+                      errors:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            path:
+                              type: array
+                              items:
+                                type: string
+                            message:
+                              type: string
+                            name:
+                              type: string
+                required: [status, message]
+            required: [error]
+    ChannelResponse:
+      description: Response channel
+    GetChannelsResponse:
+      description: Response channels
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                  required: [id, attributes]
+                  properties:
+                    id:
+                      type: integer
+                    attributes:
+                      $ref: '#/components/schemas/ChannelAttributes'
+
+  schemas:
+    ChannelAttributes:
+      type: object
+      required: [channel_id, verified, verification_date]
+      properties:
+        channel_id:
+          type: string
+        verified:
+          type: boolean
+        name:
+          type: string
+          nullable: true
+        title:
+          type: string
+          nullable: true
+        verification_date:
+          type: string
+
+    OrganisationType:
+      type: string
+      enum: [ИП, ООО, Самозанятый]
+
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+        pageSize:
+          type: integer
+        pageCount:
+          type: integer
+        total:
+          type: integer
+      required: [page, pageSize, pageCount, total]
+
+    ClientData:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/ClientCrmID'
+        attributes:
+          allOf:
+            - $ref: '#/components/schemas/ClientWithDateInfo'
+            - type: object
+              properties:
+                organisationID:
+                  $ref: '#/components/schemas/WrappedOrganisationResponse'
+
+    OrganisationID:
+      type: string
+
+    ClientCrmID:
+      type: integer
+
+    OrganisationCrmID:
+      type: integer
+
+    Organisation:
+      type: object
+      properties:
+        organisationID:
+          $ref: '#/components/schemas/OrganisationID'
+        fullName:
+          type: string
+        organisationName:
+          type: string
+        organisationType:
+          $ref: '#/components/schemas/OrganisationType'
+        inn:
+          type: string
+        ogrn:
+          type: string
+        kpp:
+          type: string
+        internalContractAdmin:
+          type: string
+        internalContractAdvertiser:
+          type: string
+        ordContractAdmin:
+          type: string
+        ordContractAdvertiser:
+          type: string
+        activeBalance:
+          type: number
+          format: decimal
+        blockedBalance:
+            type: number
+            format: decimal
+        profitBalance:
+            type: number
+            format: decimal
+        withdrawlBalance:
+            type: number
+            format: decimal
+        birthDate:
+          type: string
+          format: date
+          nullable: true
+      required: [organisationID, fullName, organisationType, organisationName, inn, ogrn, kpp, internalContractAdmin, internalContractAdvertiser, ordContractAdmin, ordContractAdvertiser, activeBalance,blockedBalance,profitBalance,withdrawlBalance]
+
+    PartialOrganization:
+      type: object
+      properties:
+        organisationID:
+          $ref: '#/components/schemas/OrganisationID'
+        fullName:
+          type: string
+        organisationType:
+          $ref: '#/components/schemas/OrganisationType'
+        inn:
+          type: string
+        orgn:
+          type: string
+        kpp:
+          type: string
+        internalContractAdmin:
+          type: string
+        internalContractAdvertiser:
+          type: string
+        ordContractAdmin:
+          type: string
+        ordContractAdvertiser:
+          type: string
+        activeBalance:
+          type: number
+          format: decimal
+        blockedBalance:
+            type: number
+            format: decimal
+        profitBalance:
+            type: number
+            format: decimal
+        withdrawlBalance:
+            type: number
+            format: decimal
+        birthDate:
+          type: string
+          format: date
+
+    DateInfo:
+      type: object
+      properties:
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        publishedAt:
+          type: string
+          format: date-time
+
+    OrganisationWithDateInfo:
+      allOf:
+        - $ref: '#/components/schemas/Organisation'
+        - $ref: '#/components/schemas/DateInfo'
+
+    UserID:
+        type: string
+
+    Client:
+      type: object
+      properties:
+        clientID:
+          $ref: '#/components/schemas/UserID'
+        clientUsername:
+          type: string
+        activeBalance:
+          type: number
+          format: decimal
+        blockedBalance:
+            type: number
+            format: decimal
+        profitBalance:
+            type: number
+            format: decimal
+        withdrawlBalance:
+            type: number
+            format: decimal
+      required: [clientID, clientUsername, activeBalance, blockedBalance, profitBalance, withdrawlBalance]
+
+    ClientWithDateInfo:
+      allOf:
+        - $ref: '#/components/schemas/Client'
+        - $ref: '#/components/schemas/DateInfo'
+
+    WrappedOrganisationResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/OrganisationCrmID'
+            attributes:
+              $ref: '#/components/schemas/OrganisationWithDateInfo'
+
+    CommissionID:
+      type: integer
+
+    DiscountID:
+      type: integer
+
+
+      meta:
+        type: object
+        properties:
+          pagination:
+            $ref: '#/components/schemas/Pagination'
+    
+    Multiplier:
+      type: object
+      properties:
+        user_Id:
+          type: string
+          format: uuid
+        client_multiplier:
+          type: number
+          format: float
+        admin_multiplier:
+          type: number
+          format: float
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        publishedAt:
+          type: string
+          format: date-time
+
+  parameters:
+    organisationID:
+      name: organisationID
+      in: path
+      description: ID of the organisation to get
+      required: true
+      schema:
+        type: string
+
+    clientID:
+      name: clientID
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/ClientCrmID'
+
+    eqFilterClientID:
+      name: filters[clientID][$eq]
+      in: query
+      required: false
+      schema:
+        $ref: '#/components/schemas/UserID'
+
+    populate:
+      in: query
+      name: populate
+      required: false
+      schema:
+        type: string
+
+  securitySchemes:
+    jwt-bearer:
+      type: http
+      scheme: Bearer
+      bearerFormat: JWT
+security:
+  - jwt-bearer: []

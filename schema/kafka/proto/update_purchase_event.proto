@@ -1,0 +1,39 @@
+syntax="proto3";
+package schema.kafka;
+
+option go_package = "gitlab.telespace.systems/ts/common/schemas/kafka/gen";
+import "creative_stored_in.proto";
+
+enum UpdatePurchaseEventType {
+  UPDATE_PURCHASE_EVENT_TYPE_UNSPECIFIED = 0;
+  UPDATE_PURCHASE_EVENT_TYPE_SEND_CREATIVE = 1;
+  UPDATE_PURCHASE_EVENT_TYPE_UPDATE_STATUS = 2;
+}
+
+
+enum PurchaseStatus {
+  PURCHASE_STATUS_UNSPECIFIED = 0;
+  PURCHASE_STATUS_PLANNED = 1;
+  PURCHASE_STATUS_DECLINED = 2;
+  PURCHASE_STATUS_PENDING_AWAIT = 3;
+}
+
+message UpdatePurchaseSendCreativeEvent {
+  string creative_text = 1;
+  repeated string invite_links = 2;
+  string markup = 3;
+  CreativeStoredIn creative_stored_in = 4;
+}
+
+message UpdatePurchaseStatusEvent {
+    PurchaseStatus status = 1;
+}
+
+message UpdatePurchaseEvent {
+  string purchase_id = 1;
+  UpdatePurchaseEventType event_type = 2;
+  oneof payload {
+    UpdatePurchaseSendCreativeEvent send_creative_event = 4;
+    UpdatePurchaseStatusEvent update_status_event = 5;
+  }
+}

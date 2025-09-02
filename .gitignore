@@ -1,0 +1,11 @@
+.idea
+other
+config/.env
+cover*
+*.pprof
+*.test
+vendor/
+
+bin/
+proto/include/
+

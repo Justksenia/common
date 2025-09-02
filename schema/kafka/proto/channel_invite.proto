@@ -1,0 +1,15 @@
+syntax="proto3";
+package schema.kafka;
+
+option go_package = "gitlab.telespace.systems/ts/common/schemas/kafka/gen";
+import "google/protobuf/timestamp.proto";
+
+message ChannelInviteLink{
+  int64 channel_id = 1;
+  string link = 2;
+  string link_name = 3;
+  bool approve_required = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp valid_to = 6;
+  uint32 user_limit = 7;
+}

@@ -1,0 +1,18 @@
+syntax="proto3";
+package schema.kafka;
+
+option go_package = "gitlab.telespace.systems/ts/common/schemas/kafka/gen";
+import "google/protobuf/timestamp.proto";
+
+message EventMessageViewsCount {
+    string id = 1;
+    int64 channel_id = 2;
+    repeated int32 message_ids = 3;
+    google.protobuf.Timestamp date = 4;
+}
+
+message EventChannelParticipantsCount {
+    string id = 1;
+    int64 channel_id = 2;
+    google.protobuf.Timestamp date = 3;
+}

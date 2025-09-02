@@ -1,0 +1,93 @@
+syntax="proto3";
+package schema.kafka;
+
+option go_package = "gitlab.telespace.systems/ts/common/schemas/kafka/gen";
+import "google/protobuf/timestamp.proto";
+import "creative_stored_in.proto";
+
+enum NotificationEventType{
+  UNSPECIFIED_EVENT_TYPE = 0;
+  BALANCE_REPLENISHMENT_EVENT_TYPE = 1;
+  BALANCE_WITHDRAWAL_EVENT_TYPE = 2;
+  POST_REQUEST_EVENT_TYPE = 3;
+  CHANGE_PURCHASE_STATUS_EVENT_TYPE = 4;
+  SEND_ADV_REQUEST_TO_MANAGER_EVENT_TYPE = 5;
+  SEND_CREATIVE_TO_USER_EVENT_TYPE = 6;
+}
+
+message BalanceReplenishmentEvent {
+    string sum = 1;
+    string company_name = 2;
+    int64 user_telegram_id = 3;
+    string user_telegram_nickname = 4;
+}
+
+message BalanceWithdrawalEvent {
+    string sum = 1;
+    string company_name = 2;
+    int64 user_telegram_id = 3;
+    string user_telegram_nickname = 4;
+}
+
+message TelegramUserData{
+    int64 user_id = 1;
+    string username = 2;
+    string first_name = 3;
+    string last_name = 4;
+    string language_code = 5;
+}
+
+message PostRequestEvent {
+    string purchase_id = 1;
+    string advertised_channel_name = 2;
+    string advertised_channel_link = 3;
+    string placement_channel_name = 4;
+    string placement_channel_link = 5;
+    string cost = 6;
+    string currency = 7;
+    google.protobuf.Timestamp placement_date = 8;
+    string placement_format = 9;
+    string applier_nickname = 10;
+    string channel_admin_nickname = 11;
+    TelegramUserData applier_telegram_data = 12;
+    string container_id = 13;
+    CreativeStoredIn creative_stored_in = 14;
+}
+
+message ChangePurchaseStatusEvent {
+    string purchase_id = 1;
+    string advertised_channel_name = 2;
+    string advertised_channel_link = 3;
+    string placement_channel_name = 4;
+    string placement_channel_link = 5;
+    string cost = 6;
+    string currency = 7;
+    google.protobuf.Timestamp placement_date = 8;
+    string placement_format = 9;
+    string applier_nickname = 10;
+    string channel_admin_nickname = 11;
+    TelegramUserData applier_telegram_data = 12;
+    string purchase_status = 13;
+}
+
+message SendCreativeToUserEvent {
+    int64 user_id = 1;
+    CreativeStoredIn creative_stored_in = 2;
+    string placement_channel_name = 3;
+    string placement_channel_link = 4;
+}
+
+
+message TelegramNotificationEvent {
+    NotificationEventType event_type = 1;
+    google.protobuf.Timestamp event_datetime = 2;
+    oneof event {
+        BalanceReplenishmentEvent balance_replenishment_event = 3;
+        BalanceWithdrawalEvent balance_withdrawal_event = 4;
+        PostRequestEvent post_request_event = 5;
+        ChangePurchaseStatusEvent change_purchase_status_event = 6;
+        PostRequestEvent send_adv_request_to_manager_event = 7;
+        SendCreativeToUserEvent send_creative_to_user_event = 8;
+    }
+}
+
